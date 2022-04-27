@@ -51,10 +51,9 @@ public class UserService implements UserDetailsService {
             User loadUserByUsername = findByUsernameAndPassword(user.getUsername(), user.getPassword());
             HttpHeaders jwtHeader = getJwtHeader(user);
 
-            if (loadUserByUsername.getRole().equals("ROLE_ADMIN")){
+
                 System.out.println("connected");
                 this.connectedUser.put(loadUserByUsername.getIduser(), loadUserByUsername);
-            }
             return new ResponseEntity<>(loadUserByUsername, jwtHeader, OK);
         } catch (BadCredentialsException e) {
             throw new BadCredentialsException("bad creditiel for username " + user.getUsername());
