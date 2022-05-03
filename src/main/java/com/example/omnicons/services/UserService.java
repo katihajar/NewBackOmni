@@ -45,15 +45,15 @@ public class UserService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtUtil jwtUtil;
-    public ResponseEntity<User> signIn(User user) {
+    public ResponseEntity<User> signIn(String username,String pass) {
         try {
            // authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-            User loadUserByUsername = findByUsernameAndPassword(user.getUsername(), user.getPassword());
-            HttpHeaders jwtHeader = getJwtHeader(user);
+            User loadUserByUsername = findByUsernameAndPassword(username, pass);
+            HttpHeaders jwtHeader = getJwtHeader(loadUserByUsername);
             this.connectedUser.put(loadUserByUsername.getIduser(), loadUserByUsername);
             return new ResponseEntity<>(loadUserByUsername, jwtHeader, OK);
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("bad creditiel for username " + user.getUsername());
+            throw new BadCredentialsException("bad creditiel for username " + username);
         }
 
     }

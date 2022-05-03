@@ -19,9 +19,9 @@ public class UserController {
     public User save(@RequestBody User user) {
         return userService.save(user);
     }
-    @PostMapping("/sign-in/")
-    public ResponseEntity<User> signIn(@RequestBody User user) {
-        return userService.signIn(user);
+    @GetMapping("/sign-in/{username}/{pass}")
+    public ResponseEntity<User> signIn(@PathVariable String username,@PathVariable String pass) {
+        return userService.signIn(username,pass);
     }
 
 
