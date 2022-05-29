@@ -13,13 +13,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +60,7 @@ public class UserService implements UserDetailsService {
         headers.add(JWT_TOKEN_HEADER, jwtUtil.generateToken(user));
         return headers;
     }
+
    /* public String sig(User user) {
        // User loadUserByUsername = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
         try {
@@ -94,6 +93,11 @@ public class UserService implements UserDetailsService {
         return loadUserByUsername;
     }
 /**/
+   @Transactional
+    public int deleteUserByIduser(Long id) {
+        return userRepository.deleteUserByIduser(id);
+    }
+
     public User findUserByIduser(Long id) {
         return userRepository.findUserByIduser(id);
     }
@@ -110,14 +114,12 @@ public class UserService implements UserDetailsService {
     public User save(User user) {
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
-        System.out.println(user.getAuthorities());
         User loadedUser = userRepository.findByUsername(user.getUsername());
         if (loadedUser != null)
             return null;
         else {
-            prepareMessage(user);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            roleService.save(user.getAuthorities());
+           // prepareMessage(user);
+            //user.setPassword(passwordEncoder.encode(user.getPassword()));
             return userRepository.save(user);
         }
     }
@@ -145,6 +147,7 @@ public class UserService implements UserDetailsService {
         userRepository.deleteById(idUser);
         return true;
     }
+
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
         if (user == null ) {
@@ -169,13 +172,15 @@ public class UserService implements UserDetailsService {
 
 
     public User updateUser(User user) {
-        System.out.println(user.getIduser());
-        User localUser = loadUserByUsername(user.getUsername());
+       User localUser = findUserByIduser(user.getIduser());
         localUser.setNomUser(user.getNomUser());
         localUser.setPrenomUser(user.getPrenomUser());
         localUser.setEmailUser(user.getEmailUser());
+        localUser.setPassword(user.getPassword());
         return userRepository.save(localUser);
     }
+
+
     public int resetPassword(String username) {
         User user = this.loadUserByUsername(username);
         if (user == null) {

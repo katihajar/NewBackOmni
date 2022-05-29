@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +36,10 @@ public class UserController {
     public UserDetails loadUserByUsername(@PathVariable String username) throws UsernameNotFoundException {
         return userService.loadUserByUsername(username);
     }
-
+    @PutMapping("/")
+    public User updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
+    }
 
     private UserService userService;
     public UserController(UserService userService) {
@@ -50,8 +54,11 @@ public class UserController {
     public User findUserByEmailUser(@PathVariable String email) {
         return userService.findUserByEmailUser(email);
     }
+
+
+    @Transactional
     @DeleteMapping("/deleteUser/{id}")
-    public Boolean deleteUser(@PathVariable Long idUser) {
-        return userService.deleteUser(idUser);
+    public int deleteUserByIduser(@PathVariable Long id) {
+        return userService.deleteUserByIduser(id);
     }
 }

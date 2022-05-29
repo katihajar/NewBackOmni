@@ -22,8 +22,8 @@ public class User implements UserDetails {
         protected String role;
     @ManyToOne
         private Profile profile;
-        @ManyToMany(fetch = FetchType.EAGER)
-        private Collection<Role> authorities;
+
+
         private boolean accountNonExpired=true;
         private boolean accountNonLocked=true;
         private boolean credentialsNonExpired=true;
@@ -38,16 +38,12 @@ public class User implements UserDetails {
         }
 
 
-        @Override
-        public Collection<Role> getAuthorities() {
-            return authorities;
-        }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
-        public void setAuthorities(Collection<Role> authorities) {
-            this.authorities = authorities;
-        }
-
-        @Override
+    @Override
         public String getPassword() {
             return password;
         }
@@ -148,6 +144,8 @@ public class User implements UserDetails {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }
 
 

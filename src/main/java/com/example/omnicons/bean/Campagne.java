@@ -19,6 +19,8 @@ public class Campagne implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     private int seuil;
+    @Column(nullable = true)
+    private String image;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "campagne")
     private List<Candidat> candidats;
@@ -32,6 +34,14 @@ public class Campagne implements Serializable {
 
     public void setIdcampagne(Long idcampagne) {
         this.idcampagne = idcampagne;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getNomCampagne() {

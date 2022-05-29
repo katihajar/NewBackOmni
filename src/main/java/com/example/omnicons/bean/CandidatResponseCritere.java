@@ -12,9 +12,19 @@ public class CandidatResponseCritere implements Serializable {
     private Critere critere;
     @ManyToOne
     private Candidat candidat;
+    @ManyToOne
+    private Campagne campagne;
 
     public Long getIdcandidatResponseCritere() {
         return idcandidatResponseCritere;
+    }
+
+    public Campagne getCampagne() {
+        return campagne;
+    }
+
+    public void setCampagne(Campagne campagne) {
+        this.campagne = campagne;
     }
 
     public void setIdcandidatResponseCritere(Long idcandidatResponseCritere) {

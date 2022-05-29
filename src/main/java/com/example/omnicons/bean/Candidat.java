@@ -16,7 +16,7 @@ public class Candidat implements Serializable {
     private String emailCandidat;
     private String telephone;
     private String cv;
-    private int reussiSelectionAuto;
+    private boolean reussiSelectionAuto;
     private String commentaire1;
     private String commentaire2;
     private String commentaire3;
@@ -28,8 +28,8 @@ public class Candidat implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "candidat")
     private List<CandidatResponseCritere> candidatResponseCriteres;
-    @ManyToOne
-    private Statut statut;
+   /* @ManyToOne
+    private Statut statut;*/
 
     public Long getIdcandidat() {
         return idcandidat;
@@ -79,11 +79,11 @@ public class Candidat implements Serializable {
         this.cv = cv;
     }
 
-    public int getReussiSelectionAuto() {
+    public boolean getReussiSelectionAuto() {
         return reussiSelectionAuto;
     }
 
-    public void setReussiSelectionAuto(int reussiSelectionAuto) {
+    public void setReussiSelectionAuto(boolean reussiSelectionAuto) {
         this.reussiSelectionAuto = reussiSelectionAuto;
     }
 
@@ -151,11 +151,11 @@ public class Candidat implements Serializable {
         this.candidatResponseCriteres = candidatResponseCriteres;
     }
 
-    public Statut getStatut() {
+    /*public Statut getStatut() {
         return statut;
     }
 
     public void setStatut(Statut statut) {
         this.statut = statut;
-    }
+    }*/
 }
